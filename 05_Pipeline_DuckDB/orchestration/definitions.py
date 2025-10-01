@@ -7,8 +7,12 @@ from dagster_dbt import DbtCliResource, dbt_assets, DbtProject
 
 #to import dlt script
 import sys # just because we do not use packages
-sys.path.insert(0,'../data_extract_load')
+sys.path.insert(0, '../data_extract_load')
 from load_job_ads import jobads_source
+
+import os
+DUCKDB_PATH = os.getenv("DUCKDB_PATH")
+DBT_PROFILES_DIR = os.getenv("DBT_PROFILES_DIR")
 
 #data warehouse
 db_path = str(Path(__file__).parents[1] / "data_warehouse/job_ads.duckdb")
@@ -37,12 +41,13 @@ def dlt_load(context: dg.AssetExecutionContext, dlt: DagsterDltResource):
 #==========#
 #related paths for dbt projects
 dbt_project_directory = Path(__file__).parents[1] / "data_transformation"
-profiles_dir = Path.home() / ".dbt"
+#profiles_dir = Path.home() / ".dbt"
 
 #create dagster dbt project object
-dbt_project = DbtProject(project_dir=dbt_project_directory, 
-                         profiles_dir=profiles_dir
-                         )
+#dbt_project = DbtProject(project_dir=dbt_project_directory, 
+#                         profiles_dir=profiles_dir)
+dbt_project = DbtProject(project_dir=dbt_project_directory,
+                         profiles_dir=Path(DBT_PROFILES_DIR))
 
 dbt_resources = DbtCliResource(project_dir=dbt_project)
 
@@ -66,7 +71,7 @@ job_dbt = dg.define_asset_job(name= "job_dbt",
 #Schedule#
 #==========#
 schedule_dlt = dg.ScheduleDefinition(
-    job=job_dlt, cron_schedule="26 13 * * *"
+    job=job_dlt, cron_schedule="55 07 * * *"
 )
 
 #==========#
