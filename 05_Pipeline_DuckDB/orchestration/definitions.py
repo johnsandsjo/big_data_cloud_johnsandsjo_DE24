@@ -15,7 +15,7 @@ DUCKDB_PATH = os.getenv("DUCKDB_PATH")
 DBT_PROFILES_DIR = os.getenv("DBT_PROFILES_DIR")
 
 #data warehouse
-db_path = str(Path(__file__).parents[1] / "data_warehouse/job_ads.duckdb")
+#db_path = str(Path(__file__).parents[1] / "data_warehouse/job_ads.duckdb")
 
 #==========#
 #dlt assets#
@@ -30,7 +30,7 @@ dlt_resource = DagsterDltResource()
     dlt_pipeline = dlt.pipeline(
         pipeline_name = "job_search",
         dataset_name = "staging",
-        destination = dlt.destinations.duckdb(db_path)
+        destination = dlt.destinations.duckdb(DUCKDB_PATH)
     )
 )
 def dlt_load(context: dg.AssetExecutionContext, dlt: DagsterDltResource):
@@ -57,7 +57,7 @@ dbt_project.prepare_if_dev()
 #create dagster dbt assets
 @dbt_assets(manifest=dbt_project.manifest_path)
 def dbt_models(context: dg.AssetExecutionContext, dbt: DbtCliResource):
-    yield from dbt.cli(["build"], context=context).stream()
+    yield from dbt.cli(["test", "build"], context=context).stream()
 
 #==========#
 #Job#
@@ -71,7 +71,7 @@ job_dbt = dg.define_asset_job(name= "job_dbt",
 #Schedule#
 #==========#
 schedule_dlt = dg.ScheduleDefinition(
-    job=job_dlt, cron_schedule="55 07 * * *"
+    job=job_dlt, cron_schedule="58 11 * * *"
 )
 
 #==========#

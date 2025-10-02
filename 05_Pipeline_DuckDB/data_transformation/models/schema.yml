@@ -1,0 +1,8 @@
+models:
+  - name: dim_occupation
+    description: "Dimension table..."
+    columns:
+      - name: occupation_id
+        description: "Primary key"
+        data_tests:
+          - unique
