@@ -57,7 +57,7 @@ dbt_project.prepare_if_dev()
 #create dagster dbt assets
 @dbt_assets(manifest=dbt_project.manifest_path)
 def dbt_models(context: dg.AssetExecutionContext, dbt: DbtCliResource):
-    yield from dbt.cli(["test", "build"], context=context).stream()
+    yield from dbt.cli(["build"], context=context).stream()
 
 #==========#
 #Job#
@@ -71,7 +71,7 @@ job_dbt = dg.define_asset_job(name= "job_dbt",
 #Schedule#
 #==========#
 schedule_dlt = dg.ScheduleDefinition(
-    job=job_dlt, cron_schedule="58 11 * * *"
+    job=job_dlt, cron_schedule="48 09 * * *"
 )
 
 #==========#
