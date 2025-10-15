@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  dwh_pipeline_course:
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: dockerfile.dwh
+    ports:
+      - "3000:3000"
+    image: crcloudecourse.azurecr.io/hr-pipeline:latest
+  dashboard:
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: dockerfile.dashboard
+    ports:
+      - "8501:8501"
+    image: crcloudecourse.azurecr.io/dashboard:latest

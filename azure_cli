@@ -1,0 +1,40 @@
+az container create \
+  --os-type Linux \
+  --resource-group rg-cloude-course \
+  --name dagstercontainer_encore \
+  --image crcloudecourse.azurecr.io/hr-pipeline:latest \
+  --registry-login-server crcloudecourse.azurecr.io \
+  --registry-username crcloudecourse \
+  --registry-password QUGaLcT00rd/rTgV9uyLpeOYMUO01m9IPbJNHRGU+x+ACRCKRpv1 \
+  --ip-address Public \
+  --ports 80 3000 \
+  --environment-variables \
+      DBT_PROFILES_DIR=/mnt/data/.dbt \
+      DUCKDB_PATH=/mnt/data/job_ads.duckdb \
+  --azure-file-volume-share-name data \
+  --azure-file-volume-account-name stcloudcourse \
+  --azure-file-volume-account-key u1eKjsH7goVdfH4mkl9OXsRbjzH7bB7/BWkCjODSpEcwCKIFtwaIuqYIK9aXIw7j+oQQZzxBJeZx+AStZ1sX0w== \
+  --azure-file-volume-mount-path /mnt/data \
+  --cpu 1 \
+  --memory 4
+
+
+  az container create \
+  --os-type Linux \
+  --resource-group rg-cloude-course \
+  --name webdashboard \
+  --image crcloudecourse.azurecr.io/dashboard:latest \
+  --registry-login-server crcloudecourse.azurecr.io \
+  --registry-username crcloudecourse \
+  --registry-password QUGaLcT00rd/rTgV9uyLpeOYMUO01m9IPbJNHRGU+x+ACRCKRpv1 \
+  --ip-address Public \
+  --ports 80 3000 \
+  --environment-variables \
+      DBT_PROFILES_DIR=/mnt/data/.dbt \
+      DUCKDB_PATH=/mnt/data/job_ads.duckdb \
+  --azure-file-volume-share-name data \
+  --azure-file-volume-account-name stcloudcourse \
+  --azure-file-volume-account-key u1eKjsH7goVdfH4mkl9OXsRbjzH7bB7/BWkCjODSpEcwCKIFtwaIuqYIK9aXIw7j+oQQZzxBJeZx+AStZ1sX0w== \
+  --azure-file-volume-mount-path /mnt/data \
+  --cpu 1 \
+  --memory 4
